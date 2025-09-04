@@ -7,7 +7,6 @@ class Preprocessor:
         self.df = df
         self.num_features = [col for col in self.df.columns if df[col].dtype!='object']
         self.cat_features = [col for col in self.df.columns if col not in self.num_features]
-        self.last_features = tuple(df.columns)
 
     # среднне по каждой числвоой фиче
     def mean(self):
@@ -29,7 +28,7 @@ class Preprocessor:
     #удаление высокоскореллированных фичей
     def del_corr_features(self, trashhold = 0.5):
         corr_matrix = self.df[self.num_features].corr().abs()
-        corr_matrix_triu = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)) # почему k=1 уточнить
+        corr_matrix_triu = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)) 
         to_del = []
         for col in corr_matrix_triu.columns:
             if ((corr_matrix_triu[col] >= trashhold) &(corr_matrix_triu[col] != 1)):
